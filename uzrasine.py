@@ -2,6 +2,12 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
+# Pagrindinis maršrutas
+@app.route('/')
+def pagrindinis_puslapis():
+    return redirect(url_for('vartotojai'))  # Nukreipimas į vartotojai maršrutą
+
+# Maršrutai skirti vartotojams
 @app.route('/vartotojai', methods=['GET', 'POST'])
 def vartotojai():
     if request.method == 'POST':
@@ -14,6 +20,11 @@ def vartotojai():
             tekstas = failas.read()
         return render_template('vartotojai.html', tekstas=tekstas)
 
+@app.route('/vartotojai_input', methods=['GET'])
+def vartotojai_input():
+    return render_template('vartotojai_input.html')
+
+# Maršrutai skirti užrašams
 @app.route('/uzrasai', methods=['GET', 'POST'])
 def uzrasai():
     if request.method == 'POST':
@@ -25,10 +36,6 @@ def uzrasai():
         with open('uzrasai.txt', 'r') as failas:
             tekstas = failas.read()
         return render_template('uzrasai.html', tekstas=tekstas)
-
-@app.route('/vartotojai_input', methods=['GET'])
-def vartotojai_input():
-    return render_template('vartotojai_input.html')
 
 @app.route('/uzrasai_input', methods=['GET'])
 def uzrasai_input():
